@@ -443,8 +443,10 @@ class FlexUnlimited:
       offersResponse = self.__getOffers()
       
       #Log offers 
-      log_offer = offersResponse.json()
-      Log.offer(log_offer.get("offerExperienceVersion"), log_offer.get("offerList"))
+      if len(offersResponse.json().get('offerList')) > 0: 
+        Log.offer(offersResponse)
+      else:
+        Log.info('no offer')
 
       if offersResponse.status_code == 200:
         currentOffers = offersResponse.json().get("offerList")
