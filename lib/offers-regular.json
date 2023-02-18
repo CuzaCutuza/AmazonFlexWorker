@@ -1,0 +1,55 @@
+[
+    {
+        "creationDate": null,
+        "deliveryCutOffTimeEpoch": null,
+        "deliveryRequest": null,
+        "endTime": 1676406600.0,
+        "expirationDate": 1676395800.0,
+        "hidden": false,
+        "isPriorityOffer": false,
+        "legalEntity": null,
+        "maxWorkload": 0,
+        "offerId": "Ok9mZmVySWQuRW5jcnlwdGlvbktleS02aGlZbDQAAACDDtWCQwmuLr5vI5DNlWrmK4gn7ruMFJ8ely6r4JBQuRSnjZelZMJAlgdZCL+k3nNaxkr1rvzzP3b3PyA6KgD0pfDSC55Wrh5p4/pDRAHLSB5VfBw/Ttpg7LCARTeuhoJxD7kIa5GK+27Awui8xuglfYj63m3YHHrxlqhdg0TyPUKTuHVitZztVeeG2R13aQfk7nsaYYDP0xYBoDvxmMIQUQeN52IFEe+57cewpYgro10/JwksZl22lGJQn8MxCT+cnaJMxTHKGEhilmCSHu9xG0nXNZV/Mc5sdqMo1XhstMH9SlY+NNvD9+0KR/zX4Dh4EeA4ezZWR9FwEeRZrxNWLYp5IF1BFmTqp+q5UwUhPmt92xETakPfdItHuKdvBliumxsNVB6EDUs/awwv6H18+IuEBlPm7cz9Q9BdB9WOcNfcFvrOw0le7DyOpMwCMmQoO50o4sLD2HAW34g4jKKYQs15fa0gzw4vDuwWITUYt6jScBpj8RtUvY7OfD6z0g7jhBrkH79z42YoKTEE49mUXe6Y/446SMn6MRMC5nwlSHYK92XsaTbo|VsLvgrjBWjwlYEtSKt8w+nqDpgqnZNeWObt+mahnKoo=",
+        "offerMetadata": null,
+        "offerType": "NON_EXCLUSIVE",
+        "rateInfo": {
+            "PriceDetails": null,
+            "currency": "USD",
+            "isSurge": false,
+            "priceAmount": 57.0,
+            "pricingUXVersion": "V2",
+            "projectedTips": 0.0,
+            "surgeMultiplier": null
+        },
+        "schedulingType": "BLOCK",
+        "serviceAreaId": "d3450ec6-b86d-44c0-9557-b95b7970222f",
+        "serviceTypeId": "amzn1.flex.st.v1.PuyOplzlR1idvfPkv5138g",
+        "serviceTypeMetadata": {
+            "modeOfTransportation": null,
+            "nameClassification": "STANDARD"
+        },
+        "startTime": 1676395800.0,
+        "startingLocation": {
+            "address": {
+                "address1": "",
+                "address2": null,
+                "address3": null,
+                "addressId": null,
+                "city": null,
+                "countryCode": null,
+                "name": null,
+                "phone": null,
+                "postalCode": null,
+                "state": null
+            },
+            "geocode": {
+                "latitude": 0.0,
+                "longitude": 0.0
+            },
+            "locationType": null,
+            "startingLocationName": ""
+        },
+        "status": "OFFERED",
+        "trIds": null
+    }
+]

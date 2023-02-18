@@ -71,6 +71,7 @@ class FlexUnlimited:
         self.minBlockRate = config["minBlockRate"]
         self.minPayRatePerHour = config["minPayRatePerHour"]
         self.arrivalBuffer = config["arrivalBuffer"]  # arrival buffer in minutes
+        self.serviceType = config["serviceType"]
         self.desiredStartTime = config["desiredStartTime"]  # start time in military time
         self.desiredEndTime = config["desiredEndTime"]  # end time in military time
         self.desiredWeekdays = set()
@@ -411,9 +412,19 @@ class FlexUnlimited:
       Log.error(f"Unable to accept an offer. Request returned status code {request.status_code}")
 
   def __processOffer(self, offer: Offer):
+
+    print(offer)
     if offer.hidden:
       return
-      
+
+    # filters only offers with tips
+    if self.serviceType == 'tips':
+      rateInfo = offer.get('rateInfo')
+      projectedTips = rateInfo.get('projectedTips')
+      print('yo')
+      if projectedTips == 0:
+        return
+
     if self.desiredWeekdays:
       if offer.weekday not in self.desiredWeekdays:
         return

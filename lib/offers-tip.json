@@ -1,0 +1,55 @@
+[
+    {
+        "creationDate": null,
+        "deliveryCutOffTimeEpoch": null,
+        "deliveryRequest": null,
+        "endTime": 1676394000.0,
+        "expirationDate": 1676386800.0,
+        "hidden": false,
+        "isPriorityOffer": false,
+        "legalEntity": null,
+        "maxWorkload": 0,
+        "offerId": "Ok9mZmVySWQuRW5jcnlwdGlvbktleS02aGlZbDQAAACDDtWCQwmuLr45bMWV32G0M8Mps/XGSt8Egi+oidAcwUmpzs6VYpIT0FM7Ua/tji0YzweehcDCHiTBBl4YQlKV5r6rSMoa+nxouq4FXmCSDkZfdB8ZANFq7afgfT+lg+dsMbMFZ5SL+j+cxb662+5veILnh2bSHhb779467RvQFmKnuABC6JLnALqJhEx1bAKr634fdJ6YiBQYuTymydsFUgHeqWQCF++3vMfk/IEo81I1ehJ2MlmonzEDnN0zVzOah61BmDPfERY8wjfCHbl7GErROZV/J7ITFMRC2XFntsHySVExNdbL9+UBTOmDtW95HL44f2BWT44vZZlrnn5bI4N6JwsTEm2+qejsUgMoJGl+20BDPRaJcdYavK9qBw76z0oHBUvWWxg1blB4uXsk/oXWA1C06pmpQ4UKBIaNdIPWQPrJyRgF4m6OocNZNWMubpwv556c0yVC2IJv2KiUSM0sffguwA8pC+8TcWoTvNynQ3pYHoDrGjD+6zrOqalEJvW6Eg==|2YAFaSp31Kip9BSfTLUHKYgzwhBlUoPwDPgETkd2vvE=",
+        "offerMetadata": null,
+        "offerType": "NON_EXCLUSIVE",
+        "rateInfo": {
+            "PriceDetails": null,
+            "currency": "USD",
+            "isSurge": false,
+            "priceAmount": 36.0,
+            "pricingUXVersion": "V2",
+            "projectedTips": 23.0,
+            "surgeMultiplier": null
+        },
+        "schedulingType": "BLOCK",
+        "serviceAreaId": "2",
+        "serviceTypeId": "amzn1.flex.st.v1.PuyOplzlR1idvfPkv5138g",
+        "serviceTypeMetadata": {
+            "modeOfTransportation": null,
+            "nameClassification": "STANDARD"
+        },
+        "startTime": 1676386800.0,
+        "startingLocation": {
+            "address": {
+                "address1": "",
+                "address2": null,
+                "address3": null,
+                "addressId": null,
+                "city": null,
+                "countryCode": null,
+                "name": null,
+                "phone": null,
+                "postalCode": null,
+                "state": null
+            },
+            "geocode": {
+                "latitude": 0.0,
+                "longitude": 0.0
+            },
+            "locationType": null,
+            "startingLocationName": ""
+        },
+        "status": "OFFERED",
+        "trIds": null
+    }
+]
