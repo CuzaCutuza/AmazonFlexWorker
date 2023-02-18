@@ -10,6 +10,7 @@ class Offer:
         self.expirationDate = datetime.fromtimestamp(offerResponseObject.get("expirationDate"))
         self.location = offerResponseObject.get('serviceAreaId')
         self.blockRate = float(offerResponseObject.get('rateInfo').get('priceAmount'))
+        self.tipRate = float(offerResponseObject.get('rateInfo').get('projectedTips'))
         self.endTime = datetime.fromtimestamp(offerResponseObject.get('endTime'))
         self.hidden = offerResponseObject.get("hidden")
         self.ratePerHour = self.blockRate / ((self.endTime - self.expirationDate).seconds / 3600)

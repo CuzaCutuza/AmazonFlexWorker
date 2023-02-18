@@ -70,6 +70,7 @@ class FlexUnlimited:
         self.desiredWarehouses = config["desiredWarehouses"] if len(config["desiredWarehouses"]) >= 1 else []  # list of warehouse ids
         self.minBlockRate = config["minBlockRate"]
         self.minPayRatePerHour = config["minPayRatePerHour"]
+        self.minTipRate = config["minTipRate"]
         self.arrivalBuffer = config["arrivalBuffer"]  # arrival buffer in minutes
         self.serviceType = config["serviceType"]
         self.desiredStartTime = config["desiredStartTime"]  # start time in military time
@@ -413,16 +414,12 @@ class FlexUnlimited:
 
   def __processOffer(self, offer: Offer):
 
-    print(offer)
     if offer.hidden:
       return
 
     # filters only offers with tips
     if self.serviceType == 'tips':
-      rateInfo = offer.get('rateInfo')
-      projectedTips = rateInfo.get('projectedTips')
-      print('yo')
-      if projectedTips == 0:
+      if offer.tipRate == 0 or offer.tipRate < self.minTipRate:
         return
 
     if self.desiredWeekdays:
