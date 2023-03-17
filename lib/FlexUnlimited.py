@@ -443,7 +443,7 @@ class FlexUnlimited:
 
   def run(self):
     Log.info("Starting job search...")
-
+      
     while self.__retryCount < self.retryLimit:
       if not self.__retryCount % 50:
         print(self.__retryCount, 'requests attempted\n\n')
@@ -451,7 +451,7 @@ class FlexUnlimited:
       offersResponse = self.__getOffers()
       
       #Log offers 
-      if len(offersResponse.json().get('offerList')) > 0: 
+      if offersResponse and len(offersResponse.json().get('offerList')) > 0: 
         Log.offer(offersResponse)
       else:
         Log.info('no offer')
