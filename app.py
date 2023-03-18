@@ -9,7 +9,5 @@ if __name__ == "__main__":
     if (arg1 == "getAllServiceAreas" or arg1 == "--w"):
       print("\n Your service area options:")
       print(flexUnlimited.getAllServiceAreas())
-    else:
-      print("Invalid argument provided.")
   else:
     flexUnlimited.run()

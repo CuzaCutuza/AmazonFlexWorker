@@ -1,6 +1,6 @@
 from lib.Offer import Offer
 from lib.Log import Log
-import requests, time, os, sys, json
+import requests, time, os, sys, json, math, threading
 from requests.models import Response
 from datetime import datetime
 from prettytable import PrettyTable
@@ -63,6 +63,8 @@ class FlexUnlimited:
 
   def __init__(self) -> None:
     try:
+      self.event = threading.Event() # blocking wait function like
+
       with open("config.json") as configFile:
         config = json.load(configFile)
         self.username = config["username"]
@@ -72,11 +74,12 @@ class FlexUnlimited:
         self.minPayRatePerHour = config["minPayRatePerHour"]
         self.minTipRate = config["minTipRate"]
         self.arrivalBuffer = config["arrivalBuffer"]  # arrival buffer in minutes
-        self.serviceType = config["serviceType"]
+        self.serviceType = config["serviceType"] 
         self.desiredStartTime = config["desiredStartTime"]  # start time in military time
         self.desiredEndTime = config["desiredEndTime"]  # end time in military time
         self.desiredWeekdays = set()
         self.retryLimit = config["retryLimit"]  # number of jobs retrieval requests to perform
+        self.retryAfter = config["retryAfter"] # sets delay in between running the script if no offer accepted
         self.refreshInterval = config["refreshInterval"]  # sets delay in between getOffers requests
         self.twilioFromNumber = config["twilioFromNumber"]
         self.twilioToNumber = config["twilioToNumber"]
@@ -442,40 +445,42 @@ class FlexUnlimited:
     self.__acceptOffer(offer)
 
   def run(self):
-    Log.info("Starting job search...")
-      
-    while self.__retryCount < self.retryLimit:
-      if not self.__retryCount % 50:
-        print(self.__retryCount, 'requests attempted\n\n')
-      
-      offersResponse = self.__getOffers()
-      
-      #Log offers 
-      if offersResponse and len(offersResponse.json().get('offerList')) > 0: 
-        Log.offer(offersResponse)
-      else:
-        Log.info('no offer')
-
-      if offersResponse.status_code == 200:
-        currentOffers = offersResponse.json().get("offerList")
-        currentOffers.sort(key=lambda pay: int(pay['rateInfo']['priceAmount']),
-                           reverse=True)
-        for offer in currentOffers:
-          offerResponseObject = Offer(offerResponseObject=offer)
-          self.__processOffer(offerResponseObject)
-        self.__retryCount += 1
-      elif offersResponse.status_code == 400:
-        minutes_to_wait = 30 * self.__rate_limit_number
-        Log.info("Rate limit reached. Waiting for " + str(minutes_to_wait) + " minutes.")
-        time.sleep(minutes_to_wait * 60)
-        if self.__rate_limit_number < 4:
-          self.__rate_limit_number += 1
+    while len(self.__acceptedOffers) < 1:
+      self.__retryCount = 0
+      Log.info("Starting job search...")
+      while self.__retryCount < self.retryLimit:
+        if not self.__retryCount % 50:
+          print(self.__retryCount, 'requests attempted\n\n')
+        
+        offersResponse = self.__getOffers()
+        
+        #Log offers 
+        if offersResponse and len(offersResponse.json().get('offerList')) > 0: 
+          Log.offer(offersResponse)
         else:
-          self.__rate_limit_number = 1
-        Log.info("Resuming search.")
-      else:
-        Log.error(offersResponse.json())
-        break
-      time.sleep(self.refreshInterval)
-    Log.info("Job search cycle ending...")
-    Log.info(f"Accepted {len(self.__acceptedOffers)} offers in {time.time() - self.__startTimestamp} seconds")
+          Log.info('no offer')
+
+        if offersResponse.status_code == 200:
+          currentOffers = offersResponse.json().get("offerList")
+          currentOffers.sort(key=lambda pay: int(pay['rateInfo']['priceAmount']),
+                            reverse=True)
+          for offer in currentOffers:
+            offerResponseObject = Offer(offerResponseObject=offer)
+            self.__processOffer(offerResponseObject)
+          self.__retryCount += 1
+        elif offersResponse.status_code == 400:
+          minutes_to_wait = 30 * self.__rate_limit_number
+          Log.info("Rate limit reached. Waiting for " + str(minutes_to_wait) + " minutes.")
+          time.sleep(minutes_to_wait * 60)
+          if self.__rate_limit_number < 4:
+            self.__rate_limit_number += 1
+          else:
+            self.__rate_limit_number = 1
+          Log.info("Resuming search.")
+        else:
+          Log.error(offersResponse.json())
+          break
+        time.sleep(self.refreshInterval)
+      Log.info("Job search cycle ending...")
+      Log.info(f"Accepted {len(self.__acceptedOffers)} offers in {math.floor(time.time() - self.__startTimestamp)} seconds")
+      self.event.wait(self.retryAfter)  # Wait for 5 seconds, or until event is set
