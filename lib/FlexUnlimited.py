@@ -406,12 +406,9 @@ class FlexUnlimited:
 
     if request.status_code == 200:
       self.__acceptedOffers.append(offer)
-      if self.twilioClient is not None:
-        self.twilioClient.messages.create(
-          to=self.twilioToNumber,
-          from_=self.twilioFromNumber,
-          body=offer.toString())
       Log.info(f"Successfully accepted an offer.")
+      offerText = "\n---OFFER ACCEPTED---\n" + offer.toString()
+      self.__sendMessage(offerText)
     else:
       Log.error(f"Unable to accept an offer. Request returned status code {request.status_code}")
 
@@ -443,6 +440,13 @@ class FlexUnlimited:
         return
 
     self.__acceptOffer(offer)
+
+  def __sendMessage(self, msg):
+    if self.twilioClient is not None:
+        self.twilioClient.messages.create(
+          to=self.twilioToNumber,
+          from_=self.twilioFromNumber,
+          body=msg)
 
   def run(self):
     while len(self.__acceptedOffers) < 1:
