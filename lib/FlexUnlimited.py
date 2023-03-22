@@ -15,7 +15,7 @@ except:
   pass
 
 APP_NAME = "com.amazon.rabbit"
-APP_VERSION = "303338310"
+APP_VERSION = "3681690"
 DEVICE_NAME = "Le X522"
 MANUFACTURER = "LeMobile"
 OS_VERSION = "LeEco/Le2_NA/le_s2_na:6.0.1/IFXNAOP5801910272S/61:user/release-keys"
@@ -36,7 +36,7 @@ class FlexUnlimited:
       "x-flex-instance-id": "BEEBE19A-FF23-47C5-B1D2-21507C831580",
       "Accept-Language": "en-US",
       "Content-Type": "application/json",
-      "User-Agent": "iOS/15.2 (iPhone Darwin) Model/iPhone Platform/iPhone13,3 RabbitiOS/2.88.2",
+      "User-Agent": "iOS/15.2 (iPhone Darwin) Model/iPhone Platform/iPhone13,3 RabbitiOS/3.88.2",
       "Connection": "keep-alive",
       "Cookie": 'session-id=147-7403990-6925948; session-id-time=2082787201l; '
                 'session-token=1mGSyTQU1jEQgpSB8uEn6FFHZ1iBcFpe9V7LTPGa3GV3sWf4bgscBoRKGmZb3TQICu7PSK5q23y3o4zYYhP'
