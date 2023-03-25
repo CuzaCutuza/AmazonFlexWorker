@@ -36,7 +36,7 @@ class FlexUnlimited:
       "x-flex-instance-id": "BEEBE19A-FF23-47C5-B1D2-21507C831580",
       "Accept-Language": "en-US",
       "Content-Type": "application/json",
-      "User-Agent": "iOS/15.2 (iPhone Darwin) Model/iPhone Platform/iPhone13,3 RabbitiOS/3.88.2",
+      "User-Agent": "iOS/15.2 (iPhone Darwin) Model/iPhone Platform/iPhone13,3 RabbitiOS/3.88.4",
       "Connection": "keep-alive",
       "Cookie": 'session-id=147-7403990-6925948; session-id-time=2082787201l; '
                 'session-token=1mGSyTQU1jEQgpSB8uEn6FFHZ1iBcFpe9V7LTPGa3GV3sWf4bgscBoRKGmZb3TQICu7PSK5q23y3o4zYYhP'
@@ -407,8 +407,11 @@ class FlexUnlimited:
     if request.status_code == 200:
       self.__acceptedOffers.append(offer)
       Log.info(f"Successfully accepted an offer.")
-      offerText = "\n---OFFER ACCEPTED---\n" + offer.toString()
+      offerText = "\n---OFFER ACCEPTED---\n"
+      OfferDetail = Offer.toString()
       self.__sendMessage(offerText)
+      self.__sendMessage(OfferDetail)
+
     else:
       Log.error(f"Unable to accept an offer. Request returned status code {request.status_code}")
 
@@ -482,9 +485,16 @@ class FlexUnlimited:
             self.__rate_limit_number = 1
           Log.info("Resuming search.")
         else:
+          data = json.loads(offersResponse.content)
+          print("Error decoding JSON:", data)
+
           Log.error(offersResponse.json())
           break
         time.sleep(self.refreshInterval)
       Log.info("Job search cycle ending...")
-      Log.info(f"Accepted {len(self.__acceptedOffers)} offers in {math.floor(time.time() - self.__startTimestamp)} seconds")
-      self.event.wait(self.retryAfter)  # Wait for 5 seconds, or until event is set
+      
+      if (len(self.__acceptedOffers) > 0):
+        Log.info(f"Accepted {len(self.__acceptedOffers)} offers in {math.floor(time.time() - self.__startTimestamp)} seconds")
+      else: 
+        Log.info(f"Sleeping for {self.retryAfter/60}min\n")
+      self.event.wait(self.retryAfter)  # Wait for x seconds, or until event is set
