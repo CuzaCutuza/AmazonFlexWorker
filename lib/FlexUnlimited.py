@@ -409,8 +409,10 @@ class FlexUnlimited:
       self.__acceptedOffers.append(offer)
       Log.info(f"Successfully accepted an offer.")
       self.__sendMessage("\n---OFFER ACCEPTED---\n")
+      self.__sendMessage(offer.toString());
     elif request.status_code == 307:
       self.__sendMessage("\n--Unable to accept an offe status code:307 captcha \n")
+      raise SystemExit # exit script
     else:
       Log.error(f"Unable to accept an offer. Request returned status code {request.status_code} \n\n error: {request}")
 
