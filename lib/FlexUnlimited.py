@@ -490,7 +490,7 @@ class FlexUnlimited:
 
           Log.error(offersResponse.json())
           break
-        time.sleep(self.refreshInterval)
+        time.sleep(random.uniform(self.refreshInterval, self.refreshInterval + 2.0))
       Log.info("Job search cycle ending...")
       
       if (len(self.__acceptedOffers) > 0):
@@ -498,4 +498,4 @@ class FlexUnlimited:
         self.__sendMessage(f"\nScript stopped: acceptedOffers: \n {len(self.__acceptedOffers)}\n")
       else: 
         Log.info(f"Sleeping for {self.retryAfter/60}min\n")
-      self.event.wait(random.randint(self.retryAfter, self.retryAfter + 1))  # Wait for x seconds, or until event is set
+      self.event.wait(random.randint(self.retryAfter, self.retryAfter + 2))  # Wait for x seconds, or until event is set
