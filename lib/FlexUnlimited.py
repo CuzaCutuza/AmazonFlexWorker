@@ -407,13 +407,12 @@ class FlexUnlimited:
     if request.status_code == 200:
       self.__acceptedOffers.append(offer)
       Log.info(f"Successfully accepted an offer.")
-      offerText = "\n---OFFER ACCEPTED---\n"
-      OfferDetail = Offer.toString()
-      self.__sendMessage(offerText)
-      self.__sendMessage(OfferDetail)
-
+      self.__sendMessage("\n---OFFER ACCEPTED---\n")
+    elif request.status_code == 307:
+      self.__sendMessage("\n--Unable to accept an offe status code:307 captcha \n")
     else:
-      Log.error(f"Unable to accept an offer. Request returned status code {request.status_code}")
+      Log.error(f"Unable to accept an offer. Request returned status code {request.status_code} \n\n error: {request}")
+
 
   def __processOffer(self, offer: Offer):
 
@@ -495,6 +494,7 @@ class FlexUnlimited:
       
       if (len(self.__acceptedOffers) > 0):
         Log.info(f"Accepted {len(self.__acceptedOffers)} offers in {math.floor(time.time() - self.__startTimestamp)} seconds")
+        self.__sendMessage(f"\nScript stopped: acceptedOffers: \n {len(self.__acceptedOffers)}\n")
       else: 
         Log.info(f"Sleeping for {self.retryAfter/60}min\n")
-      self.event.wait(self.retryAfter)  # Wait for x seconds, or until event is set
+      self.event.wait(math.randint(self.retryAfter, self.retryAfter + 1))  # Wait for x seconds, or until event is set
