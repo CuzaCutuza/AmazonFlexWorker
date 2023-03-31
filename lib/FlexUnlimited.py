@@ -8,6 +8,7 @@ from urllib.parse import unquote, urlparse, parse_qs
 import base64, hashlib, hmac, gzip, secrets
 import pyaes
 from pbkdf2 import PBKDF2
+import random
 
 try:
   from twilio.rest import Client
@@ -497,4 +498,4 @@ class FlexUnlimited:
         self.__sendMessage(f"\nScript stopped: acceptedOffers: \n {len(self.__acceptedOffers)}\n")
       else: 
         Log.info(f"Sleeping for {self.retryAfter/60}min\n")
-      self.event.wait(math.randint(self.retryAfter, self.retryAfter + 1))  # Wait for x seconds, or until event is set
+      self.event.wait(random.randint(self.retryAfter, self.retryAfter + 1))  # Wait for x seconds, or until event is set
