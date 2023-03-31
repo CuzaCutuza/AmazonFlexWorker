@@ -411,8 +411,11 @@ class FlexUnlimited:
       self.__sendMessage("\n---OFFER ACCEPTED---\n")
       self.__sendMessage(offer.toString());
     elif request.status_code == 307:
-      self.__sendMessage("\n--Unable to accept an offe status code:307 captcha \n")
-      raise SystemExit # exit script
+      self.__sendMessage("Manually complete amazon flex captcha and return to bot to unpause\n")
+      while(1):
+        answer = input("Complete Captcha?:(Y/N").lower()
+        if answer == "y":
+          break 
     else:
       Log.error(f"Unable to accept an offer. Request returned status code {request.status_code} \n\n error: {request}")
 
