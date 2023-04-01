@@ -9,6 +9,7 @@ import base64, hashlib, hmac, gzip, secrets
 import pyaes
 from pbkdf2 import PBKDF2
 import random
+from discord_webhook import DiscordWebhook
 
 try:
   from twilio.rest import Client
@@ -84,6 +85,7 @@ class FlexUnlimited:
         self.refreshInterval = config["refreshInterval"]  # sets delay in between getOffers requests
         self.twilioFromNumber = config["twilioFromNumber"]
         self.twilioToNumber = config["twilioToNumber"]
+        self.discordWebHookUrl = config["discordWebHookUrl"]; # discord webhook notification
         self.__retryCount = 0
         self.__rate_limit_number = 1
         self.__acceptedOffers = []
@@ -408,7 +410,6 @@ class FlexUnlimited:
     if request.status_code == 200:
       self.__acceptedOffers.append(offer)
       Log.info(f"Successfully accepted an offer.")
-      self.__sendMessage("\n---OFFER ACCEPTED---\n")
       self.__sendMessage(offer.toString());
     elif request.status_code == 307:
       self.__sendMessage("Manually complete amazon flex captcha and return to bot to unpause\n")
@@ -450,6 +451,15 @@ class FlexUnlimited:
     self.__acceptOffer(offer)
 
   def __sendMessage(self, msg):
+    if self.discordWebHookUrl is not None: 
+        # append @everyone tag to the msg
+        msgContent = "@everyone "+ msg;
+        webhook = DiscordWebhook(url=self.discordWebHookUrl, content=msgContent)
+        response = webhook.execute()
+
+        if response.status_code == 200:
+          print('notification: msg sent successfully to Discord\n');
+     
     if self.twilioClient is not None:
         self.twilioClient.messages.create(
           to=self.twilioToNumber,
