@@ -9,9 +9,9 @@ class Log:
     @staticmethod
     def error(message: str):
         print(f'ERROR: {message}', flush=True)
-    
+
     @staticmethod
-    def offer(jsonObj: str):
+    def offer(jsonObj: str, wareHouses ):
         offers = jsonObj.json().get('offerList')
         for offer in offers:
             # extract info
@@ -23,4 +23,12 @@ class Log:
             offerEndTime = time.strftime('%#I:%M %p', time.localtime(offer.get('endTime')))
             offerTotalHour = ((offer.get('endTime') - offer.get('startTime')) / 3600)
             totalOfferCost = priceAmount + projectedTips
-            print(f'\n--------------------\n{offerDate}\n{offerStartTime} - {offerEndTime} ({offerTotalHour}hrs) \n${priceAmount} + {projectedTips} = ${totalOfferCost}', flush=True)
+            serviceAreaName = "N/A"
+            try:
+                serviceAreaId = offer.get('serviceAreaId')
+                serviceAreaName = wareHouses[serviceAreaId]
+            except KeyError:
+                print("serviceAreaId not in wareHouses dict")
+
+            msg = "\n--------------------\n"+str(offerDate)+"\n"+str(serviceAreaName)+"\n"+str(offerStartTime)+ " - "+ str(offerEndTime)+ " "+ str(offerTotalHour)+"hrs\n"+str(priceAmount)+" + " +str(projectedTips)+" = "+str(totalOfferCost)
+            return msg

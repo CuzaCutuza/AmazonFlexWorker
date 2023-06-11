@@ -72,6 +72,8 @@ class FlexUnlimited:
         self.username = config["username"]
         self.password = config["password"]
         self.desiredWarehouses = config["desiredWarehouses"] if len(config["desiredWarehouses"]) >= 1 else []  # list of warehouse ids
+        self.desiredWarehousesAddress = config["desiredWarehousesAddress"] if len(config["desiredWarehousesAddress"]) >= 1 else []  # list of warehouse ids
+        self.wareHouses = {self.desiredWarehouses[i]: self.desiredWarehousesAddress[i] for i in range(len(self.desiredWarehouses))} # create dictionary mapping between warehouseIDs with its real addresses
         self.minBlockRate = config["minBlockRate"]
         self.minPayRatePerHour = config["minPayRatePerHour"]
         self.minTipRate = config["minTipRate"]
@@ -411,12 +413,10 @@ class FlexUnlimited:
       self.__acceptedOffers.append(offer)
       Log.info(f"Successfully accepted an offer.")
       self.__sendMessage(offer.toString());
+      
     elif request.status_code == 307:
-      self.__sendMessage("Manually complete amazon flex captcha and return to bot to unpause\n")
-      while(1):
-        answer = input("Complete Captcha?:(Y/N").lower()
-        if answer == "y":
-          break 
+      self.__sendMessage("amazon flex: Manually captcha completion required WORKER STOPPED!\n")
+      sys.exit()      
     else:
       Log.error(f"Unable to accept an offer. Request returned status code {request.status_code} \n\n error: {request}")
 
@@ -478,7 +478,7 @@ class FlexUnlimited:
         
         #Log offers 
         if offersResponse and len(offersResponse.json().get('offerList')) > 0: 
-          Log.offer(offersResponse)
+          print(Log.offer(offersResponse, self.wareHouses))
         else:
           Log.info('no offer')
 
@@ -505,12 +505,16 @@ class FlexUnlimited:
 
           Log.error(offersResponse.json())
           break
-        time.sleep(random.uniform(self.refreshInterval, self.refreshInterval + 2.0))
+        randomIntervalTime = random.uniform(self.refreshInterval, self.refreshInterval + random.uniform(0, 1.5))
+        time.sleep(randomIntervalTime)
+
+        if (len(self.__acceptedOffers) > 0):
+          Log.info(f"Accepted {len(self.__acceptedOffers)} offers in {math.floor(time.time() - self.__startTimestamp)} seconds")
+          self.__sendMessage(f"\nAccepted Offer: {len(self.__acceptedOffers)}\n Worker Stopped!")
+          sys.exit()
+  
       Log.info("Job search cycle ending...")
       
-      if (len(self.__acceptedOffers) > 0):
-        Log.info(f"Accepted {len(self.__acceptedOffers)} offers in {math.floor(time.time() - self.__startTimestamp)} seconds")
-        self.__sendMessage(f"\nScript stopped: acceptedOffers: \n {len(self.__acceptedOffers)}\n")
-      else: 
-        Log.info(f"Sleeping for {self.retryAfter/60}min\n")
-      self.event.wait(random.randint(self.retryAfter, self.retryAfter + 2))  # Wait for x seconds, or until event is set
+      randomSleepTime = random.randint(self.retryAfter, self.retryAfter + random.randint(0, 2))
+      Log.info(f"Sleeping for {randomSleepTime/60}min\n")
+      self.event.wait(randomSleepTime)  # Wait for x seconds, or until event is set

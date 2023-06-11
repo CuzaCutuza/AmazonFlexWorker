@@ -24,6 +24,8 @@ To determine the internal warehouse ids of warehouses you are eligible for, run 
 
 Here you will get a table of all the service areas (warehouses) that you are eligible for. The left column states the service area name, and the right column is the internal warehouse id used by Amazon. Copy all the service area ids you want to restrict your search to as strings into the **desiredWarehouses** field into the config.json. 
 
+6. When populating `desiredWarehouses` make sure to put the coressponding address on the `desiredWarehousesAddress` 
+
 e.g
 ```
 {
