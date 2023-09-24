@@ -18,14 +18,26 @@ class Offer:
 
 
     def toString(self) -> str:
-        blockDuration = (self.endTime - self.expirationDate).seconds / 3600
-
-        # translate Service ID to Service Area Name
+        blockDuration = (self.endTime - self.startTime).seconds / 3600
 
         body = 'Location: ' + self.location + '\n'
-        body += 'Date: ' + str(datetime.fromtimestamp(self.expirationDate).strftime("%m-%d %I:%M:%S %p")) +'\n'
+        body += 'Date: ' + str(self.startTime.month) + '/' + str(self.startTime.day) + '\n'
         body += 'Pay: ' + str(self.blockRate) + '\n'
         body += 'Pay rate per hour: ' + str(self.ratePerHour) + '\n'
         body += 'Block Duration: ' + str(blockDuration) + f'{"hour" if blockDuration == 1 else "hours"}\n'
+
+        if not self.startTime.minute:
+            body += 'Start time: ' + str(self.startTime.hour) + '00\n'
+        elif self.startTime.minute < 10:
+            body += 'Start time: ' + str(self.startTime.hour) + '0' + str(self.startTime.minute) + '\n'
+        else:
+            body += 'Start time: ' + str(self.startTime.hour) + str(self.startTime.minute) + '\n'
+
+        if not self.endTime.minute:
+            body += 'End time: ' + str(self.endTime.hour) + '00\n'
+        elif self.endTime.minute < 10:
+            body += 'End time: ' + str(self.endTime.hour) + '0' + str(self.endTime.minute) + '\n'
+        else:
+            body += 'End time: ' + str(self.endTime.hour) + str(self.endTime.minute) + '\n'
 
         return body

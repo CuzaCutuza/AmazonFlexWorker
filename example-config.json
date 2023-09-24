@@ -1,0 +1,36 @@
+{
+  "username": "",
+  "password": "",
+  "minBlockRate": 36,
+  "minPayRatePerHour": 0,
+  "arrivalBuffer": 50,
+  "minTipRate": 15,
+  "serviceType": "tip",
+  "desiredWarehouses": [
+    "e8af174c-1c0e-48c0-85da-1f0e62b7a898"
+  ],
+  "desiredWarehousesAddress": [
+    "55 Bay St, Brooklyn, NY 11231, \nFresh Online"
+  ],
+  "desiredStartTime": "00:00",
+  "desiredEndTime": "23:30",
+  "desiredWeekdays": [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thur",
+    "Fri",
+    "Sat",
+    "Sun"
+  ],
+  "retryLimit": 70,
+  "retryAfter": 25,
+  "refreshInterval": 5.35,
+  "twilioAcctSid": "",
+  "twilioAuthToken": "",
+  "twilioFromNumber": "",
+  "twilioToNumber": "",
+  "discordWebHookUrl": "https://discord.com/api/webhooks/",
+  "refreshToken": "",
+  "accessToken": ""
+}

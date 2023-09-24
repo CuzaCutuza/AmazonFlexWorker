@@ -28,3 +28,6 @@ The ultimate goal of this project is to eliminate the need for drivers to manual
   "desiredWarehouses": ["9c332725-c1be-405f-87c5-e7def58595f6", "5fa41ec8-44ae-4e91-8e48-7be008d72e8a"],
   ...
 }
+```
+
+9. Make sureto provide `antiCaptchaToken` api this is need for when need to complete challanges 
