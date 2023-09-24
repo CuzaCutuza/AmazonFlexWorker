@@ -1,0 +1,46 @@
+{
+  "username": "moonlightbz064@gmail.com",
+  "password": "JASMINjon87509$",
+  "minBlockRate": 36,
+  "minPayRatePerHour": 0,
+  "arrivalBuffer": 50,
+  "minTipRate": 15,
+  "serviceType": "tip",
+  "desiredWarehouses": [
+    "2",
+    "e8af174c-1c0e-48c0-85da-1f0e62b7a898",
+    "721061b3-a4f1-4244-99b3-a453c9cb864e",
+    "acf06702-57ba-47f3-a34f-19e536a69fc0",
+    "d661022e-1310-4c33-8a50-bd62c484d751",
+    "37ec1f6e-cf03-4703-9bc7-2fafcca596d4"
+  ],
+  "desiredWarehousesAddress": [
+    "503 2nd Ave, Brooklyn, NY 11232, \nFresh Online",
+    "55 Bay St, Brooklyn, NY 11231, \nFresh Online",
+    "214 3rd St., Brooklyn, NY 11215, \nWhole Foods Market",
+    "167 41st St, Brooklyn, NY 11232d, \nWhole Foods Market",
+    "238 Bedford Ave, Brooklyn, NY 11249, \nWhole Foods (NO PARKING)",
+    "292 Ashland Pl, Brooklyn, NY 11217, \nWhole Foods Market (NO PARKING)"
+  ],
+  "desiredStartTime": "00:00",
+  "desiredEndTime": "23:30",
+  "desiredWeekdays": [
+    "Mon",
+    "Tue",
+    "Wed",
+    "Thur",
+    "Fri",
+    "Sat",
+    "Sun"
+  ],
+  "retryLimit": 70,
+  "retryAfter": 25,
+  "refreshInterval": 5.35,
+  "twilioAcctSid": "AC2d5aa963af31be6fec2017337538ad3c",
+  "twilioAuthToken": "be689d338cb56ff051f1d19671e31d8f",
+  "twilioFromNumber": "18882743957",
+  "twilioToNumber": "13476564997",
+  "discordWebHookUrl": "https://discord.com/api/webhooks/1091791800978649218/LUkRC85e94WYUapNDcDQjosmBEZ9naIy17fUqCNTZMB7NTphNVlDvqLVME6BnYU8QQGo",
+  "refreshToken": "Atnr|EwICIFsCAAf-TSbihadB9LFBohpYyhbazbmzzVlraodGaXE832oMVSfCM2_6_-8d0ZopGh2d_6niDAINf9HLMX1H5OIK1r-2VItXVsav84NxrGuSS8zUIGPkVxWO8rb1Ui1k4JJmKyk049wbHNDluVTTtEUu318Th_TcNU2F0HsH-mJJ4aujcFX_fws-nVrxaL1AJ0p5bXcUfManXUfOvY0sZDJilyPXVKePkA0gdpteWoJnnH8mlvGaQYQWggux-3XuH9_Sib8_psdJYaa8jkeWH8Ge",
+  "accessToken": "Atna|EwICIMSUacqTSvv7Aa5OUoOQLHhrKNdaRUOU_OeRgEI3moAi21eqKf-CaBJ0zDKpj9nBs7rZ-2PAJusq6zs5ZetlgzmwixfwId5CececBOoy72J0HVHkod38CXRgw6EW_x9HtZ6WvlzRYxqP7D_fkG-hyjLxHMrJJbJZrBIKesGSk3PFNTShN8kfAzayE13EFm6e6ANztMXEkFp85ToGAtK_2iQrEoajqLQLkCdUgztgAEpT7ha3vb7xLOyQz1EQF984YbuwKXzQ2QtgGXs5WPEz1rHXsxfhi17QBuxE_8uxwL2mHA"
+}

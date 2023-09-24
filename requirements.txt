@@ -14,3 +14,4 @@ twilio==7.3.2
 urllib3==1.25.10:
 wcwidth==0.2.5
 discord-webhook==1.1.0
+anticaptchaofficial==1.0.56

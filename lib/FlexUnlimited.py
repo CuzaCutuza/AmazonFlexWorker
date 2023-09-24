@@ -10,6 +10,7 @@ import pyaes
 from pbkdf2 import PBKDF2
 import random
 from discord_webhook import DiscordWebhook
+from anticaptchaofficial.antigatetask import *
 
 try:
   from twilio.rest import Client
@@ -96,11 +97,13 @@ class FlexUnlimited:
         self.refreshToken = config["refreshToken"]
         self.accessToken = config["accessToken"]
         self.session = requests.Session()
-        
+        self.antiCaptchaToken = config["antiCaptchaToken"]
+
         desiredWeekdays = config["desiredWeekdays"]
 
         twilioAcctSid = config["twilioAcctSid"]
         twilioAuthToken = config["twilioAuthToken"]
+
 
     except KeyError as nullKey:
       Log.error(f'{nullKey} was not set. Please setup FlexUnlimited as described in the README.')
@@ -413,13 +416,58 @@ class FlexUnlimited:
       self.__acceptedOffers.append(offer)
       Log.info(f"Successfully accepted an offer.")
       self.__sendMessage(offer.toString());
-      
+      self.__solveCaptcha()
     elif request.status_code == 307:
-      self.__sendMessage("amazon flex: Manually captcha completion required WORKER STOPPED!\n")
+      self.__solveCaptcha()
+      Log.error("Please open Amazon Flex app, accept offer, and complete captcha to proceed.", self)
+      self.__sendMessage("Please open Amazon Flex app, accept offer, and complete captcha to proceed.\n")
       sys.exit()      
     else:
-      Log.error(f"Unable to accept an offer. Request returned status code {request.status_code} \n\n error: {request}")
+      Log.error("Unable to accept an offer. Request returned status code {request.status_code} \n\n error: {request}")
+      self.__sendMessage("Unable to accept an offer first captach solver faild trying again... \n")
+      self.__solveCaptcha()
+  
+  def __solveCaptcha(self):
+    Log.info("Trying bypass captach.", self)
 
+    solver = antigateTask()
+    solver.set_verbose(1)
+    solver.set_key(self.AntiCaptchaToken)
+    solver.set_website_url("https://www.amazon.com/aaut/verify/flex-offers/challenge?challengeType=ARKOSE_LEVEL_2&returnTo=https://www.amazon.com&headerFooter=false")
+    solver.set_template_name("Amazon uniqueValidationId")
+    solver.set_variables({})
+
+    balance = solver.get_balance()
+
+    if balance < 0.10:
+      Log.error(f"Anti-Captcha balance is {balance}", self)
+
+      if balance <= 0:
+        exit()
+
+    result  = solver.solve_and_return_solution()
+    if result != 0:
+        
+        parsed_url = urlparse(result["url"])
+        query_params = parse_qs(parsed_url.query)
+        session_token = query_params.get('sessionToken', [None])[0]
+        decoded_session_token = unquote(session_token)
+
+        payload = json.dumps({
+            'challengeToken': decoded_session_token
+        })
+        ValidateChallenge = requests.request("POST", "https://flex-capacity-na.amazon.com/ValidateChallenge", headers=self.__requestHeaders, data=payload)
+
+        if ValidateChallenge.status_code == 200:
+          Log.notice("Captcha passed!", self)
+          solver.report_correct_recaptcha()
+        else:
+          Log.error("Reporting incorrect captcha.", self)
+          solver.report_incorrect_recaptcha()
+          self.__solveCaptcha()
+
+    else:
+        Log.error(f"Task finished with error {solver.error_code}", self)
 
   def __processOffer(self, offer: Offer):
 
@@ -467,6 +515,25 @@ class FlexUnlimited:
           body=msg)
 
   def run(self):
+
+    """ # tokenTask
+    print("api host",capsolver.api_base)
+    print("api key",capsolver.api_key)
+    # capsolver.api_key = "..."
+    solution = capsolver.solve({
+            "type":"ReCaptchaV2TaskProxyLess",
+            "websiteKey":"6Le-wvkSAAAAAPBMRTvw0Q4Muexq9bi0DJwx_mJ-",
+            "websiteURL":"https://www.google.com/recaptcha/api2/demo",
+        })
+
+    print(solution)
+    
+    # get current balance
+    balance = capsolver.balance()
+    # print the current balance
+    print(balance)
+    sys.exit() """
+    
     while len(self.__acceptedOffers) < 1:
       self.__retryCount = 0
       Log.info("Starting job search...")
