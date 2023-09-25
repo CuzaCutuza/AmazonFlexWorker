@@ -419,12 +419,11 @@ class FlexUnlimited:
       self.__solveCaptcha()
     elif request.status_code == 307:
       self.__solveCaptcha()
-      Log.error("Please open Amazon Flex app, accept offer, and complete captcha to proceed.")
-      self.__sendMessage("Please open Amazon Flex app, accept offer, and complete captcha to proceed.\n")
-      sys.exit()      
+      Log.error("Unable to  accept offer solve captcha invoked")
+      self.__sendMessage("Unable to accept offer solving captcah status: 307\n")
     else:
       Log.error("Unable to accept an offer. Request returned status code {request.status_code} \n\n error: {request}")
-      self.__sendMessage("Unable to accept an offer first captach solver faild trying again... \n")
+      self.__sendMessage("Unable to accept an offer first captach solver faild trying again... \n Unable to accept an offer. Request returned status code {request.status_code} \n")
       sys.exit()
 
   def __solveCaptcha(self):
