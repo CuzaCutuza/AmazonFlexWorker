@@ -419,20 +419,20 @@ class FlexUnlimited:
       self.__solveCaptcha()
     elif request.status_code == 307:
       self.__solveCaptcha()
-      Log.error("Please open Amazon Flex app, accept offer, and complete captcha to proceed.", self)
+      Log.error("Please open Amazon Flex app, accept offer, and complete captcha to proceed.")
       self.__sendMessage("Please open Amazon Flex app, accept offer, and complete captcha to proceed.\n")
       sys.exit()      
     else:
       Log.error("Unable to accept an offer. Request returned status code {request.status_code} \n\n error: {request}")
       self.__sendMessage("Unable to accept an offer first captach solver faild trying again... \n")
-      self.__solveCaptcha()
-  
+      sys.exit()
+
   def __solveCaptcha(self):
-    Log.info("Trying bypass captach.", self)
+    Log.info("Trying bypass captach.")
 
     solver = antigateTask()
     solver.set_verbose(1)
-    solver.set_key(self.AntiCaptchaToken)
+    solver.set_key(self.antiCaptchaToken)
     solver.set_website_url("https://www.amazon.com/aaut/verify/flex-offers/challenge?challengeType=ARKOSE_LEVEL_2&returnTo=https://www.amazon.com&headerFooter=false")
     solver.set_template_name("Amazon uniqueValidationId")
     solver.set_variables({})
@@ -440,7 +440,7 @@ class FlexUnlimited:
     balance = solver.get_balance()
 
     if balance < 0.10:
-      Log.error(f"Anti-Captcha balance is {balance}", self)
+      Log.error(f"Anti-Captcha balance is {balance}" )
 
       if balance <= 0:
         exit()
@@ -459,15 +459,15 @@ class FlexUnlimited:
         ValidateChallenge = requests.request("POST", "https://flex-capacity-na.amazon.com/ValidateChallenge", headers=self.__requestHeaders, data=payload)
 
         if ValidateChallenge.status_code == 200:
-          Log.notice("Captcha passed!", self)
+          Log.info("Captcha passed!")
           solver.report_correct_recaptcha()
         else:
-          Log.error("Reporting incorrect captcha.", self)
+          Log.error("Reporting incorrect captcha.")
           solver.report_incorrect_recaptcha()
           self.__solveCaptcha()
 
     else:
-        Log.error(f"Task finished with error {solver.error_code}", self)
+        Log.error(f"Task finished with error {solver.error_code}")
 
   def __processOffer(self, offer: Offer):
 
