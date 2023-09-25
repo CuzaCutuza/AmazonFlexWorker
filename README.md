@@ -30,4 +30,4 @@ The ultimate goal of this project is to eliminate the need for drivers to manual
 }
 ```
 
-9. Make sureto provide `antiCaptchaToken` api this is need for when need to complete challanges 
+9. Make sure to provide `antiCaptchaToken` api this is need for when need to complete challanges. You can go and register on there website and load your account.
