@@ -422,7 +422,7 @@ class FlexUnlimited:
       Log.error("Unable to  accept offer solve captcha invoked")
       self.__sendMessage("Unable to accept offer solving captcah status: 307\n")
     else:
-      Log.error("Unable to accept an offer. Request returned status code {request.status_code} \n\n error: {request}")
+      Log.error("Unable to accept an offer. Request returned status code")
       self.__sendMessage("Unable to accept an offer first captach solver faild trying again... \n Unable to accept an offer. Request returned status code {request.status_code} \n")
       sys.exit()
 
@@ -507,11 +507,11 @@ class FlexUnlimited:
         if response.status_code == 200:
           print('notification: msg sent successfully to Discord\n');
      
-    if self.twilioClient is not None:
+    """ if self.twilioClient is not None:
         self.twilioClient.messages.create(
           to=self.twilioToNumber,
           from_=self.twilioFromNumber,
-          body=msg)
+          body=msg) """
 
   def run(self):
 
@@ -583,4 +583,5 @@ class FlexUnlimited:
       
       randomSleepTime = random.randint(self.retryAfter, self.retryAfter + random.randint(0, 2))
       Log.info(f"Sleeping for {randomSleepTime/60}min\n")
+      # self.__solveCaptcha()
       self.event.wait(randomSleepTime)  # Wait for x seconds, or until event is set
