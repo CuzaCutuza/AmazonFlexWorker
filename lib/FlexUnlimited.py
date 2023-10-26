@@ -422,9 +422,8 @@ class FlexUnlimited:
       Log.error("Unable to  accept offer solve captcha invoked")
       self.__sendMessage("Unable to accept offer solving captcah status: 307\n")
     else:
-      Log.error("Unable to accept an offer. Request returned status code")
-      self.__sendMessage("Unable to accept an offer first captach solver faild trying again... \n Unable to accept an offer. Request returned status code {request.status_code} \n")
-      sys.exit()
+      Log.error(f"Unable to accept an offer. Request returned status code {request.status_code}")
+      self.__sendMessage(f"Missed offer: Unable to accept an offer trying again... STATUS_CODE:{request.status_code} \n ")
 
   def __solveCaptcha(self):
     Log.info("Trying bypass captach.")
